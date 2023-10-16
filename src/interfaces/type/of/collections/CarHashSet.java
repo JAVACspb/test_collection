@@ -77,6 +77,25 @@ public class CarHashSet implements CarSet {
     }
 
     @Override
+    public boolean contains(Car car) {
+        int position = getElementPosition(car, array.length); // вычисляем номер позиции в массиве
+        if (array[position] == null){return false;} // проверяем есть ли что-то на полученной позиции
+        Entry secondLast = array[position];// запоминаем предпоследний элемент самая верхушка тот, который под индексом
+        Entry last = secondLast.next; // запоминаем последний элемент который под элементом который под индексом
+        if (secondLast.value.equals(car)){ // проверка и удаление
+            return true;
+        }
+        while (last != null) { // идем вниз пор списку с проверкой на null
+            if (last.value.equals(car)) {
+                return true;
+            } else {
+                last = last.next;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public int size() {
         return size;
     }

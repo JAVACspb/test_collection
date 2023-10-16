@@ -4,7 +4,6 @@ import interfaces.type.of.collections.Car;
 
 public interface CarList extends CarCollection{
     Car get(int index);
-
     boolean add(Car car);
 
     boolean add(Car car, int index);
@@ -17,4 +16,8 @@ public interface CarList extends CarCollection{
 
     void clear();
 
+    @Override
+    default boolean contains(Car car) {
+        return false;
+    }
 }

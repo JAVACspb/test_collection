@@ -38,7 +38,17 @@ public class CarArrayList implements CarList {
     public boolean remove(Car car) {
         for(int i = 0; i < size; i ++){
             if (array[i].equals(car)){
-                removeAt(i);
+                return removeAt(i);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean contains(Car car) {
+        for(int i = 0; i < size; i ++){
+            if (array[i].equals(car)){
+                return true;
             }
         }
         return false;
