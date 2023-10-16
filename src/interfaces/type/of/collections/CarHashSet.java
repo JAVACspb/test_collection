@@ -1,4 +1,8 @@
-public class CarHashSet implements CarSet{
+package interfaces.type.of.collections;
+
+import interfaces.CarSet;
+
+public class CarHashSet implements CarSet {
     private int size;
     private final static int INITIAL_CAPACITY = 16;
     private final static double LOAD_FACTOR = 0.75;

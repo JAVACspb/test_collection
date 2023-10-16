@@ -1,6 +1,10 @@
+package interfaces.type.of.collections;
+
+import interfaces.CarList;
+
 import java.util.Arrays;
 
-public class CarArrayList implements CarList{
+public class CarArrayList implements CarList {
     private Car[] array = new Car[10];
     private  int size;
     @Override
@@ -10,14 +14,15 @@ public class CarArrayList implements CarList{
     }
 
     @Override
-    public void add(Car car) {
+    public boolean add(Car car) {
         increseArray();
         array[size] = car;
         size++;
+        return true;
     }
 
     @Override
-    public void add(Car car, int index) {
+    public boolean add(Car car, int index) {
         increseArray();
         if (index < 0 || index > size){
             throw new IndexOutOfBoundsException();
@@ -25,6 +30,7 @@ public class CarArrayList implements CarList{
         System.arraycopy(array, index, array, index + 1, size - index);
         array[index] = car;
         size++;
+        return true;
     }
 
 
