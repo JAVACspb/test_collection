@@ -1,6 +1,6 @@
 package interfaces.type.of.collections;
 
-public class Car {
+public class Car{
     private String brand;
     private int number;
 
@@ -23,5 +23,18 @@ public class Car {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+//    @Override
+//    public int compareTo(Car o) {
+//        return brand.compareTo(o.brand);
+//    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "brand='" + brand + '\'' +
+                ", number=" + number +
+                '}';
     }
 }
