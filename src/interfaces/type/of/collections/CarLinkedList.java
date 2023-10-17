@@ -2,6 +2,8 @@ package interfaces.type.of.collections;
 
 import interfaces.CarList;
 
+import java.util.Iterator;
+
 public class CarLinkedList implements CarList {
 
     private Node first;
@@ -76,6 +78,25 @@ public class CarLinkedList implements CarList {
         }
         size--;
         return false;
+    }
+
+    @Override
+    public Iterator<Car> iterator() {
+        return new Iterator<Car>() {
+            private Node node = first;
+
+            @Override
+            public boolean hasNext() {
+                return node != null;
+            }
+
+            @Override
+            public Car next() {
+                Car car = node.value;
+                node = node.next;
+                return car ;
+            }
+        };
     }
 
     @Override

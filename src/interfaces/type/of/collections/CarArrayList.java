@@ -3,6 +3,7 @@ package interfaces.type.of.collections;
 import interfaces.CarList;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class CarArrayList implements CarList {
     private Car[] array = new Car[10];
@@ -83,5 +84,21 @@ public class CarArrayList implements CarList {
         if (size >= array.length){
             array = Arrays.copyOf(array, array.length * 2);
         }
+    }
+
+    @Override
+    public Iterator<Car> iterator() {
+        return new Iterator<Car>() {
+            int index = 0;
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
+
+            @Override
+            public Car next() {
+                return array[index++]; // пост-инкремент после взятия объекта(получаем эолемент с индексом 0, потом делаем инкремент и возвращаем полученное значение)
+            }
+        };
     }
 }

@@ -2,6 +2,8 @@ package interfaces.type.of.collections;
 
 import interfaces.CarSet;
 
+import java.util.Iterator;
+
 public class CarHashSet implements CarSet {
     private int size;
     private final static int INITIAL_CAPACITY = 16;
@@ -39,6 +41,37 @@ public class CarHashSet implements CarSet {
             }
         }
     }
+
+    @Override
+    public Iterator<Car> iterator() {
+        return new Iterator<Car>() {
+            int index = 0;
+            int arrayIndex = 0;
+            Entry entry;
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
+
+            @Override
+            public Car next() {
+                while (array[arrayIndex] == null){ // проверяем, есть ли что-нибудь в ячейке, сначала это будет 0
+                    arrayIndex++; // итерируемся по массиву
+                }
+                if (entry == null){ // инициализируем entry при первом находе элемента
+                    entry = array[arrayIndex]; // присваиваем, то что нашли
+                }
+                Car result = entry.value; // получаем значение
+                entry = entry.next; // проверка элементов в связном списке
+                if (entry == null){
+                    arrayIndex++; // тут смотрим осталось что-то или нет, если нет, то итерируемся дальше
+                }
+                index++;
+                return result; // возвращаем полученное значение
+            }
+        };
+    }
+
     private void increaseArray(){
         Entry[] newArray = new Entry[array.length * 2]; // создаем новый массив
         for (Entry entry : array ) { // начинаем проходится по старому массиву
