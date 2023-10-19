@@ -1,20 +1,16 @@
 import interfaces.type.of.collections.Car;
+import interfaces.type.of.collections.CarOwner;
 
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        Set<Car> cars = new TreeSet<>(new Comparator<Car>() {
-            @Override
-            public int compare(Car o1, Car o2) {
-                return o1.getBrand().compareTo(o2.getBrand());
-            }
-        });
-        for (int i = 0; i < 100; i++){
-            cars.add(new Car("Brand" + i, i));
-        }
-        for (Car car : cars) {
-            System.out.println(car);
-        }
+        HashMap<CarOwner, Car> map = new HashMap<>();
+        CarOwner key = new CarOwner(1,"Name", "LastName");
+        map.put(key, new Car("Brand1", 1));
+        key.setId(8);
+        Car car = map.get(key);
+        System.out.println(car.getBrand());
+
     }
 }
