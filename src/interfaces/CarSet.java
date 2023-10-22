@@ -2,9 +2,9 @@ package interfaces;
 
 import interfaces.type.of.collections.Car;
 
-public interface CarSet extends CarCollection{
-    public boolean add(Car car);
-    public boolean remove(Car car);
+public interface CarSet<T> extends CarCollection<T>{
+    public boolean add(T car);
+    public boolean remove(T car);
     public int size();
     public void clear();
 

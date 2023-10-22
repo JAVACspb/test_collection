@@ -2,13 +2,13 @@ package interfaces;
 
 import interfaces.type.of.collections.Car;
 
-public interface CarList extends CarCollection{
-    Car get(int index);
-    boolean add(Car car);
+public interface CarList<T> extends CarCollection<T>{
+    T get(int index);
+    boolean add(T car);
 
-    boolean add(Car car, int index);
+    boolean add(T car, int index);
 
-    boolean remove(Car car);
+    boolean remove(T car);
 
     boolean removeAt(int index);
 
@@ -17,7 +17,7 @@ public interface CarList extends CarCollection{
     void clear();
 
     @Override
-    default boolean contains(Car car) {
+    default boolean contains(T car) {
         return false;
     }
 }

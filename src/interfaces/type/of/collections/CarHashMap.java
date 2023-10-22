@@ -7,14 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CarHashMap implements CarMap {
+public class CarHashMap<T,K> implements CarMap<T,K> {
     private static final int INITIAL_CAPACITY = 16;
     private static final double LOAD_FACTOR = 0.75;
-    private Entry[] array = new Entry[INITIAL_CAPACITY];
+    private Object[] array = new Object[INITIAL_CAPACITY];
     private int size;
 
     @Override
-    public void put(CarOwner key, Car value) {
+    public void put(T key, K value) {
         if (size >= array.length * LOAD_FACTOR){
             increaseArray();
         }
@@ -23,9 +23,9 @@ public class CarHashMap implements CarMap {
             size++;
         }
     }
-    public boolean put(CarOwner key, Car value, Entry[] dst) {
+    public boolean put(T key, K value, Object[] dst) {
         int position = getElementPosition(key, dst.length); // получаем номер позиции
-        Entry existedElement = dst[position]; // получаем элемент по этой позиции
+        Entry existedElement = (Entry) dst[position]; // получаем элемент по этой позиции
         if (existedElement == null){ // проверяем пустая ли позиция
             Entry entry = new Entry(key, value, null); // если пустая, то создаем новый объект Entry
             dst[position] = entry; // кладем новый объект в массив
@@ -46,12 +46,12 @@ public class CarHashMap implements CarMap {
     }
 
     @Override
-    public Car get(CarOwner key) {
+    public K get(T key) {
         int position = getElementPosition(key, array.length); // получаем индекс
-        Entry existedElement = array[position]; // присваиваем
+        Entry existedElement = (Entry) array[position]; // присваиваем
         while(existedElement != null){ // ищем в цепочке элемент с нужным ключом
             if (existedElement.key.equals(key)){
-                return existedElement.value;
+                return (K) existedElement.value;
             }
             existedElement = existedElement.next; // тут перезаписали что бы шагать вниз по цепочке
         }
@@ -59,12 +59,12 @@ public class CarHashMap implements CarMap {
     }
 
     @Override
-    public Set<CarOwner> keyset() {
-        Set<CarOwner> result = new HashSet<>();
-        for (Entry entry : array){ // 1 этап
-            Entry existedElement = entry;
+    public Set<T> keyset() {
+        Set<T> result = new HashSet<>();
+        for (Object entry : array){ // 1 этап
+            Entry existedElement = (Entry) entry;
             while (existedElement != null){ // заходим в связный список
-                result.add(existedElement.key); // пишем result
+                result.add((T) existedElement.key); // пишем result
                 existedElement = existedElement.next; // шлепаем дальше
             }
         }
@@ -72,12 +72,12 @@ public class CarHashMap implements CarMap {
     }
 
     @Override
-    public List<Car> values() {
-        List<Car> result = new ArrayList<>();
-        for (Entry entry : array){ // 1 этап
-            Entry existedElement = entry;
+    public List<K> values() {
+        List<K> result = new ArrayList<>();
+        for (Object entry : array){ // 1 этап
+            Entry existedElement = (Entry) entry;
             while (existedElement != null){ // заходим в связный список
-                result.add(existedElement.value); // пишем result
+                result.add((K) existedElement.value); // пишем result
                 existedElement = existedElement.next; // шлепаем дальше
             }
         }
@@ -85,9 +85,9 @@ public class CarHashMap implements CarMap {
     }
 
     @Override
-    public boolean remove(CarOwner key) {
+    public boolean remove(T key) {
         int position = getElementPosition(key, array.length); // получаем индекс
-        Entry existedElement = array[position]; // присваиваем
+        Entry existedElement = (Entry) array[position]; // присваиваем
         if (existedElement != null && existedElement.key.equals(key)){ // проверка на пустоту и на совпадение ключей
             array[position] = existedElement.next; // перезаписали ссылки, что бы не потерять цепочку после удаления элемента
             size--;
@@ -117,33 +117,34 @@ public class CarHashMap implements CarMap {
 
     @Override
     public void clear() {
-        array = new Entry[INITIAL_CAPACITY];
+        array = new Object[INITIAL_CAPACITY];
         size = 0;
     }
-    private int getElementPosition(CarOwner carOwner, int arrayLength){
+    private int getElementPosition(T carOwner, int arrayLength){
         return Math.abs(carOwner.hashCode() % arrayLength);
     }
     private void increaseArray(){
-        Entry[] newArray = new Entry[array.length * 2];
-        for (Entry entry : array){ // 1 этап
-            Entry existedElement = entry;
+        Object[] newArray = new Object[array.length * 2];
+        for (Object entry : array){ // 1 этап
+            Entry existedElement = (Entry) entry;
             while (existedElement != null){ // заходим в связный список
-                put(existedElement.key, existedElement.value, newArray);
+                put((T) existedElement.key, (K) existedElement.value, newArray);
                 existedElement = existedElement.next; // шлепаем дальше
             }
         }
         array = newArray;
     }
 
-    private static class Entry{
-        private CarOwner key;
-        private Car value;
+    private class Entry{
+        private T key;
+        private K value;
         private Entry next;
 
-        public Entry(CarOwner key, Car value, Entry next) {
+        public Entry(T key, K value, Entry next) {
             this.key = key;
             this.value = value;
             this.next = next;
         }
+
     }
 }
